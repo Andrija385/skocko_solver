@@ -74,22 +74,28 @@ def crvenoZuti(a,b):
 
 sveKombinacije = vratiSveKombinacije(slova,4)
 komb = sveKombinacije.copy()
-target = ['S','S','S','S']
+target = ['S','H','P','T']# set to None for manual input
+opt = 'a'
+while opt != 'q':
+    komb = sveKombinacije.copy()
+    while len(komb)>1:
+        rez = racunaj(komb)
+        #rez.sort(key=lambda x:-x[1])
 
-while len(komb)>1:
-    rez = racunaj(komb)
-    #rez.sort(key=lambda x:-x[1])
-
-    #print(rez[0][0])
-    maksimal = max(rez,key=lambda x:x[1])[0]
-    print(maksimal)
-    #crveni = int(input('Broj crvenih kruzica:'))
-    #zuti = int(input('Broj zutih kruzica:'))
-    cz0 = crvenoZuti(maksimal,target)
-    print(cz0)
-    for i in range(len(komb)-1,-1,-1):
-        cz = crvenoZuti(maksimal,komb[i])
-        #print(cz)
-        if cz[0]!=cz0[0] or cz[1]!=cz0[1]:
-            komb.pop(i)
-print(komb)
+        #print(rez[0][0])
+        maksimal = max(rez,key=lambda x:x[1])[0]
+        print(maksimal)
+        cz0=[0,0]
+        if target==None:
+            cz0[0] = int(input('Broj crvenih kruzica:'))
+            cz0[1] = int(input('Broj zutih kruzica:'))
+        else:
+            cz0 = crvenoZuti(maksimal,target)
+        #print(cz0)
+        for i in range(len(komb)-1,-1,-1):
+            cz = crvenoZuti(maksimal,komb[i])
+            #print(cz)
+            if cz[0]!=cz0[0] or cz[1]!=cz0[1]:
+                komb.pop(i)
+    print(komb)
+    opt = input(opt)
