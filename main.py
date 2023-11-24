@@ -26,24 +26,14 @@ def calcEntropy(cnt,duzina):
 def racunaj(komb):
     rez=[]
     for a in komb:
-        cur=a.copy()
         cnt={}
         for b in komb:
-            moguci=b.copy()
-            cz = [0, 0]
-            for i in range(len(cur)):
-                id = nadji(cur[i], moguci)
-                if i == id:
-                    cz[0] += 1
-                    moguci[i] = 'x'
-                elif id != -1:
-                    cz[1] += 1
-                    moguci[id] = 'x'
+            cz = crvenoZuti(a,b)
             if tuple(cz) in cnt.keys():
                 cnt[tuple(cz)]+=1
             else:
                 cnt[tuple(cz)]=1
-        rez.append([cur.copy(),calcEntropy(cnt,len(komb))])
+        rez.append([a.copy(),calcEntropy(cnt,len(komb))])
         #print(cnt)
         #print(cur,ans)
     return rez
@@ -57,8 +47,7 @@ def crvenoZuti(a,b):
     komb2 = b.copy()
     ans = [0,0]
     for i in range(len(komb1)):
-        id = nadji(komb1[i],komb2)
-        if i==id:
+        if komb1[i]==komb2[i]:
             ans[0]+=1
             komb2[i]='x'
             komb1[i]='o'
@@ -74,7 +63,7 @@ def crvenoZuti(a,b):
 
 sveKombinacije = vratiSveKombinacije(slova,4)
 komb = sveKombinacije.copy()
-target = ['S','H','P','T']# set to None for manual input
+target = None# set to None for manual input
 opt = 'a'
 while opt != 'q':
     komb = sveKombinacije.copy()
